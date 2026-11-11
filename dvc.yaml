@@ -1,0 +1,37 @@
+
+stages:
+
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+      - src/prepare.py
+      - data/raw/iris.csv
+    params:
+      - base.random_state
+      - prepare.test_size
+    outs:
+      - data/processed
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed/train.csv
+    params:
+      - base.random_state
+      - train.C
+      - train.kernel
+    outs:
+      - models/model.pkl
+
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+      - src/evaluate.py
+      - data/processed/test.csv
+      - models/model.pkl
+    params:
+      - evaluate.average
+    metrics:
+      - reports/metrics.json:
+          cache: false

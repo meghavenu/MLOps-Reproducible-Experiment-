@@ -1,0 +1,12 @@
+base:
+  random_state: 42
+
+prepare:
+  test_size: 0.2
+
+train:
+  C: 2.0
+  kernel: rbf
+
+evaluate:
+  average: macro
